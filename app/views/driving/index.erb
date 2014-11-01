@@ -1,0 +1,95 @@
+<h1>Welcome!</h1>
+<p>WASD is the way!<p>
+<p>Otherwise, you can use buttons below!</p>
+
+<%= link_to "left",  "#", class: "drive_control", data: { drive_turn: -1 } %>
+<%= link_to "none", "#",  class: "drive_control", data: { drive_turn: 0 } %>
+<%= link_to "right", "#", class: "drive_control", data: { drive_turn: 1 } %>
+<br>
+<%= link_to "backward",  "#", class: "drive_control", data: { drive_go: -1 } %>
+<%= link_to "none",      "#", class: "drive_control", data: { drive_go: 0 } %>
+<%= link_to "frontward", "#", class: "drive_control", data: { drive_go: 1 } %>
+
+<script type="text/javascript">
+  var isGoing   = false;
+  var isTurning = false;
+  $(document).on("keydown", function(e) {
+
+    // GO!
+    if(e.which == 87 && !isGoing) {
+      // console.log("GO!");
+      isGoing = true;
+      $.get("/go?dir=1", function(data) {
+        console.log(data);
+        $(document).on("keyup", function(e) {
+          if(e.which == 87 && isGoing) {
+            isGoing = false;
+            $.get("/go?dir=0", function(data) {
+              console.log(data);
+            });
+          }
+        });
+      });
+    }
+
+    // GO BACK!
+    if(e.which == 83 && !isGoing) {
+      // console.log("GO BACK!");
+      isGoing = true;
+      $.get("/go?dir=-1", function(data){
+        console.log(data);
+        $(document).on("keyup", function(e) {
+          if(e.which == 83 && isGoing) {
+            isGoing = false;
+            $.get("/go?dir=0", function(data) {
+              console.log(data);
+            });
+          }
+        });
+      });
+    }
+
+    if(e.which == 65 && !isTurning) {
+      isTurning = true;
+      $.get("/turn?dir=-1", function(data){
+        console.log(data);
+        $(document).on("keyup", function(e) {
+          if(e.which == 65 && isTurning) {
+            isTurning = false;
+            $.get("/turn?dir=0", function(data) {
+              console.log(data);
+            });
+          }
+        });
+      });
+    }
+
+    if(e.which == 68 && !isTurning) {
+      isTurning = true;
+      $.get("/turn?dir=1", function(data){
+        console.log(data);
+        $(document).on("keyup", function(e) {
+          if(e.which == 68 && isTurning) {
+            isTurning = false;
+            $.get("/turn?dir=0", function(data) {
+              console.log(data);
+            });
+          }
+        });
+      });
+    }
+
+  });
+
+
+
+  $(".drive_control").on("click", function(e){
+    e.preventDefault();
+    if($(this).data("driveGo")) {
+      $.get("/go?dir=" + $(this).data("driveGo"));
+    }
+    if($(this).data("driveTurn")) {
+      $.get("/turn?dir=" + $(this).data("driveTurn"));
+    }
+  });
+</script>
