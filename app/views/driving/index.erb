@@ -2,13 +2,13 @@
 <p>WASD is the way!<p>
 <p>Otherwise, you can use buttons below!</p>
 
-<%= link_to "left",  "#", class: "drive_control", data: { drive_turn: -1 } %>
-<%= link_to "none", "#",  class: "drive_control", data: { drive_turn: 0 } %>
-<%= link_to "right", "#", class: "drive_control", data: { drive_turn: 1 } %>
-<br>
-<%= link_to "backward",  "#", class: "drive_control", data: { drive_go: -1 } %>
-<%= link_to "none",      "#", class: "drive_control", data: { drive_go: 0 } %>
-<%= link_to "frontward", "#", class: "drive_control", data: { drive_go: 1 } %>
+<div class="keyboard">
+  <%= link_to "w", "#",  class: "drive_control button w", data: { drive_go: 1 } %>
+  <%= link_to "a",  "#", class: "drive_control button a", data: { drive_turn: -1 } %>
+  <%= link_to "s",  "#", class: "drive_control button s", data: { drive_go: -1 } %>
+  <%= link_to "d", "#",  class: "drive_control button d", data: { drive_turn: 1 } %>
+  
+</div>
 
 <script type="text/javascript">
   var isGoing   = false;
@@ -21,11 +21,13 @@
       isGoing = true;
       $.get("/go?dir=1", function(data) {
         console.log(data);
+        pressButton(1, undefined);
         $(document).on("keyup", function(e) {
           if(e.which == 87 && isGoing) {
             isGoing = false;
             $.get("/go?dir=0", function(data) {
               console.log(data);
+              pressButton(0, undefined);
             });
           }
         });
@@ -38,41 +40,49 @@
       isGoing = true;
       $.get("/go?dir=-1", function(data){
         console.log(data);
+        pressButton(-1, undefined);
         $(document).on("keyup", function(e) {
           if(e.which == 83 && isGoing) {
             isGoing = false;
             $.get("/go?dir=0", function(data) {
               console.log(data);
+              pressButton(0, undefined);
             });
           }
         });
       });
     }
 
+    // TURN LEFT
     if(e.which == 65 && !isTurning) {
       isTurning = true;
       $.get("/turn?dir=-1", function(data){
         console.log(data);
+        pressButton(undefined, -1);
         $(document).on("keyup", function(e) {
           if(e.which == 65 && isTurning) {
             isTurning = false;
             $.get("/turn?dir=0", function(data) {
               console.log(data);
+              pressButton(undefined, 0);
             });
           }
         });
       });
     }
 
+    // TURN RIGHT
     if(e.which == 68 && !isTurning) {
       isTurning = true;
       $.get("/turn?dir=1", function(data){
         console.log(data);
+        pressButton(undefined, 1);
         $(document).on("keyup", function(e) {
           if(e.which == 68 && isTurning) {
             isTurning = false;
             $.get("/turn?dir=0", function(data) {
               console.log(data);
+              pressButton(undefined, 0);
             });
           }
         });
@@ -82,6 +92,15 @@
   });
 
 
+
+  function pressButton(dataDriveGo, dataDriveTurn){
+    if(dataDriveGo || dataDriveGo == 0)
+      $(".drive_control[data-drive-go]").removeClass("pressed");
+    if(dataDriveTurn || dataDriveTurn == 0)
+      $(".drive_control[data-drive-turn]").removeClass("pressed");
+    $(".drive_control[data-drive-go= " + dataDriveGo + "]").addClass("pressed");
+    $(".drive_control[data-drive-turn= " + dataDriveTurn + "]").addClass("pressed");
+  }
 
   $(".drive_control").on("click", function(e){
     e.preventDefault();

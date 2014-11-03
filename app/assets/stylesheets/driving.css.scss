@@ -1,3 +1,68 @@
 // Place all the styles related to the driving controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$keyboard-button-font-color: #545454;
+$keyboard-button-color: #F2F1F0;
+$keyboard-button-color-pressed: #B9B9B7;
+$keyboard-button-color-hover: #CBC7C3;
+$font-family:    Helvetica, sans-serif;
+
+.keyboard {
+  
+  width: 252px;
+  height: 167px;
+  position: relative;
+
+  .button {
+    width:  80px;
+    height: 80px;
+
+    display: block;
+    background-color: $keyboard-button-color;
+
+    font-size: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 1.7;
+    text-align: center;
+    color: $keyboard-button-font-color;
+
+    border: 1px solid rgba(0,0,0,0.05);
+
+    font-family: $font-family;
+
+    position: absolute
+  }
+
+  .button.w {
+    left: 85px;
+    top: 0;
+  }
+
+  .button.a {
+    left: 0;
+    top: 85px;
+  }
+
+  .button.s {
+    left: 85px;
+    top: 85px;
+  }
+
+  .button.d {
+    left: 170px;
+    top: 85px;
+  }
+
+  .button:hover  {
+    background-color: $keyboard-button-color-hover;
+  }
+
+  .button.pressed {
+    background-color: $keyboard-button-color-pressed;
+  }
+
+
+}
+
