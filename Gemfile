@@ -33,6 +33,7 @@ gem 'spring',        group: :development
 # gem 'unicorn'
 
 # User passenger as the app server
+gem 'passenger', group: :production
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
