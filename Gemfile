@@ -42,3 +42,5 @@ gem 'passenger', group: :production
 # gem 'debugger', group: [:development, :test]
 
 
+# GPIO control
+gem "pi_piper"
