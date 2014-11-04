@@ -28,9 +28,11 @@ class DrivingController < ApplicationController
     direction = params[:dir].to_i
 
     if [BACKWARD, FRONTWARD].include?(direction)
-      system "echo '1' > /sys/class/gpio/gpio17/value"
+      # system "echo '1' > /sys/class/gpio/gpio17/value"
+      message = "GO #{direction}"
     elsif direction == NONE
-      system "echo '0' > /sys/class/gpio/gpio17/value"
+      # system "echo '0' > /sys/class/gpio/gpio17/value"
+      message = "STOP"
     end
 
     render text: message
