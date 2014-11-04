@@ -2,14 +2,16 @@
 <p>WASD is the way!<p>
 <p>Otherwise, you can use buttons below!</p>
 
-<div class="video_stream">
-  <img src="http://<%= request.host %>:8080/?action=stream">
-</div>
-<div class="keyboard">
-  <%= link_to "w", "#",  class: "drive_control button w", data: { drive_go: 1 } %>
-  <%= link_to "a",  "#", class: "drive_control button a", data: { drive_turn: -1 } %>
-  <%= link_to "s",  "#", class: "drive_control button s", data: { drive_go: -1 } %>
-  <%= link_to "d", "#",  class: "drive_control button d", data: { drive_turn: 1 } %>
+<div class="control_panel">
+  <div class="video_stream">
+    <img src="http://<%= request.host %>:8080/?action=stream" alt="awesome streaming here">
+  </div>
+  <div class="keyboard">
+    <%= link_to "w", "#",  class: "drive_control button w", data: { drive_go: 1 } %>
+    <%= link_to "a",  "#", class: "drive_control button a", data: { drive_turn: -1 } %>
+    <%= link_to "s",  "#", class: "drive_control button s", data: { drive_go: -1 } %>
+    <%= link_to "d", "#",  class: "drive_control button d", data: { drive_turn: 1 } %>
+  </div>
 </div>
 
 <script type="text/javascript">
