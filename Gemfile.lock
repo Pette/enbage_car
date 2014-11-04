@@ -39,6 +39,7 @@ GEM
     daemon_controller (1.2.0)
     erubis (2.7.0)
     execjs (2.2.2)
+    ffi (1.9.6)
     hike (1.2.3)
     i18n (0.6.11)
     jbuilder (2.2.4)
@@ -57,6 +58,8 @@ GEM
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
+    pi_piper (1.3.2)
+      ffi
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -117,6 +120,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   passenger
+  pi_piper
   rails (= 4.1.6)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
