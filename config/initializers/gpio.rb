@@ -1,1 +1,1 @@
-GPIO = WiringPi::GPIO.new(WPI_MODE_SYS)
+# GPIO = WiringPi::GPIO.new

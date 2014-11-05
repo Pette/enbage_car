@@ -6,10 +6,10 @@ class DrivingController < ApplicationController
   BACKWARD  = -1
   FRONTWARD = 1
 
-  GPIO_GO         = 17
-  GPIO_GO_BACK    = 18
-  GPIO_TURN_LEFT  = 21
-  GPIO_TURN_RIGHT = 22
+  GPIO_GO         = 0
+  GPIO_GO_BACK    = 1
+  GPIO_TURN_LEFT  = 2
+  GPIO_TURN_RIGHT = 3
 
   DRIVE_CONTORL = {
     go: {
@@ -32,11 +32,14 @@ class DrivingController < ApplicationController
     direction = params[:dir].to_i
 
     if [LEFT, RIGHT].include?(direction)
-      GPIO.write(DRIVE_CONTORL[:turn][direction][:gpio], 1)
+      # GPIO.write(DRIVE_CONTORL[:turn][direction][:gpio], 1)
+      system "gpio write #{DRIVE_CONTORL[:turn][direction][:gpio]} 1"
       message = DRIVE_CONTORL[:turn][direction][:message]
     elsif direction == NONE
-      GPIO.write(DRIVE_CONTORL[:go][LEFT][:gpio], 0)
-      GPIO.write(DRIVE_CONTORL[:go][RIGHT][:gpio], 0)
+      # GPIO.write(DRIVE_CONTORL[:turn][LEFT][:gpio], 0)
+      # GPIO.write(DRIVE_CONTORL[:turn][RIGHT][:gpio], 0)
+      system "gpio write #{DRIVE_CONTORL[:turn][LEFT][:gpio]} 0"
+      system "gpio write #{DRIVE_CONTORL[:turn][RIGHT][:gpio]} 0"
       message = "DON'T TURN"
     end
 
@@ -47,14 +50,14 @@ class DrivingController < ApplicationController
     direction = params[:dir].to_i
 
     if [BACKWARD, FRONTWARD].include?(direction)
-      GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 1)
-      system "gpio write 0 1"
-      logger.info("GPIO.write(#{DRIVE_CONTORL[:turn][direction][:gpio]}, 1)")
+      # GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 1)
+      system "gpio write #{DRIVE_CONTORL[:go][direction][:gpio]} 1"
       message = DRIVE_CONTORL[:go][direction][:message]
     elsif direction == NONE
-      GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 0)
-      GPIO.write(DRIVE_CONTORL[:go][FRONTWARD][:gpio], 0)
-      system "gpio write 0 0"
+      # GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 0)
+      # GPIO.write(DRIVE_CONTORL[:go][FRONTWARD][:gpio], 0)
+      system "gpio write #{DRIVE_CONTORL[:go][BACKWARD][:gpio]} 0"
+      system "gpio write #{DRIVE_CONTORL[:go][FRONTWARD][:gpio]} 0"
       message = "STOP"
     end
 
