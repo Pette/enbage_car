@@ -3,8 +3,10 @@
 <p>Otherwise, you can use buttons below!</p>
 
 <div class="control_panel">
-  <div class="video_stream">
-    <img src="http://<%= request.host %>:8080/?action=stream" alt="awesome streaming here">
+  <div id="video_stream" class="video_stream">
+    <div class="placeholder">
+      <p>Can't reach video, refresh the page or wait till nothing!</p>
+    </div>
   </div>
   <div class="keyboard">
     <%= link_to "w", "#",  class: "drive_control button w", data: { drive_go: 1 } %>
@@ -15,95 +17,13 @@
 </div>
 
 <script type="text/javascript">
-  var isGoing   = false;
-  var isTurning = false;
-  $(document).on("keydown", function(e) {
-    // GO!
-    if(e.which == 87 && !isGoing) {
-      // console.log("GO!");
-      isGoing = true;
-      $.get("/go?dir=1", function(data) {
-        console.log(data);
-        pressButton(1, undefined);
-        $(document).on("keyup", function(e) {
-          if(e.which == 87 && isGoing) {
-            isGoing = false;
-            $.get("/go?dir=0", function(data) {
-              console.log(data);
-              pressButton(0, undefined);
-            });
-          }
-        });
-      });
-    }
-    // GO BACK!
-    if(e.which == 83 && !isGoing) {
-      // console.log("GO BACK!");
-      isGoing = true;
-      $.get("/go?dir=-1", function(data){
-        console.log(data);
-        pressButton(-1, undefined);
-        $(document).on("keyup", function(e) {
-          if(e.which == 83 && isGoing) {
-            isGoing = false;
-            $.get("/go?dir=0", function(data) {
-              console.log(data);
-              pressButton(0, undefined);
-            });
-          }
-        });
-      });
-    }
-    // TURN LEFT
-    if(e.which == 65 && !isTurning) {
-      isTurning = true;
-      $.get("/turn?dir=-1", function(data){
-        console.log(data);
-        pressButton(undefined, -1);
-        $(document).on("keyup", function(e) {
-          if(e.which == 65 && isTurning) {
-            isTurning = false;
-            $.get("/turn?dir=0", function(data) {
-              console.log(data);
-              pressButton(undefined, 0);
-            });
-          }
-        });
-      });
-    }
-    // TURN RIGHT
-    if(e.which == 68 && !isTurning) {
-      isTurning = true;
-      $.get("/turn?dir=1", function(data){
-        console.log(data);
-        pressButton(undefined, 1);
-        $(document).on("keyup", function(e) {
-          if(e.which == 68 && isTurning) {
-            isTurning = false;
-            $.get("/turn?dir=0", function(data) {
-              console.log(data);
-              pressButton(undefined, 0);
-            });
-          }
-        });
-      });
-    }
-  });
-  function pressButton(dataDriveGo, dataDriveTurn){
-    if(dataDriveGo || dataDriveGo == 0)
-      $(".drive_control[data-drive-go]").removeClass("pressed");
-    if(dataDriveTurn || dataDriveTurn == 0)
-      $(".drive_control[data-drive-turn]").removeClass("pressed");
-    $(".drive_control[data-drive-go= " + dataDriveGo + "]").addClass("pressed");
-    $(".drive_control[data-drive-turn= " + dataDriveTurn + "]").addClass("pressed");
-  }
-  $(".drive_control").on("click", function(e){
-    e.preventDefault();
-    if($(this).data("driveGo")) {
-      $.get("/go?dir=" + $(this).data("driveGo"));
-    }
-    if($(this).data("driveTurn")) {
-      $.get("/turn?dir=" + $(this).data("driveTurn"));
-    }
-  });
+
+  // var webcam_server_uri = "http://192.168.1.3:8080";
+  var webcam_server_uri = "http://<%= request.host %>:8080";
+
+  $(document).on("keydown", function(e) { keyboardControl(e) });
+  $(document).on("load", createImageLayer(webcam_server_uri));
+
+
+
 </script>

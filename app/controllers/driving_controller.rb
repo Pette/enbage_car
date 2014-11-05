@@ -6,6 +6,22 @@ class DrivingController < ApplicationController
   BACKWARD  = -1
   FRONTWARD = 1
 
+  GPIO_GO         = 17
+  GPIO_GO_BACK    = 18
+  GPIO_TURN_LEFT  = 21
+  GPIO_TURN_RIGHT = 22
+
+  DRIVE_CONTORL = {
+    go: {
+      FRONTWARD => { gpio: GPIO_GO,         message: "GO" },
+      BACKWARD  => { gpio: GPIO_GO_BACK,    message: "GO BACK" },
+    },
+    turn: {
+      LEFT  => { gpio: GPIO_TURN_LEFT,  message: "TURN LEFT" },
+      RIGHT => { gpio: GPIO_TURN_RIGHT, message: "TURN RIGHT" }
+    }
+  }
+
   def index
     respond_to do |format|
       format.any
@@ -16,8 +32,11 @@ class DrivingController < ApplicationController
     direction = params[:dir].to_i
 
     if [LEFT, RIGHT].include?(direction)
-      message = "TURN #{direction}!" 
+      gpio.write(DRIVE_CONTORL[:turn][direction][:gpio], 1)
+      message = DRIVE_CONTORL[:turn][direction][:message]
     elsif direction == NONE
+      gpio.write(DRIVE_CONTORL[:go][LEFT][:gpio], 0)
+      gpio.write(DRIVE_CONTORL[:go][RIGHT][:gpio], 0)
       message = "DON'T TURN"
     end
 
@@ -26,16 +45,13 @@ class DrivingController < ApplicationController
 
   def go
     direction = params[:dir].to_i
-    io = WiringPi::GPIO.new(WPI_MODE_SYS)
-    logger.info io
 
     if [BACKWARD, FRONTWARD].include?(direction)
-      # system "echo '1' > /sys/class/gpio/gpio17/value"
-      message = "GO #{direction}"
-      io.write(17, direction.abs)
+      gpio.write(DRIVE_CONTORL[:go][direction][:gpio], 1)
+      message = DRIVE_CONTORL[:go][direction][:message]
     elsif direction == NONE
-      # system "echo '0' > /sys/class/gpio/gpio17/value"
-      io.write(17, 0)
+      gpio.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 0)
+      gpio.write(DRIVE_CONTORL[:go][FRONTWARD][:gpio], 0)
       message = "STOP"
     end
 
