@@ -47,11 +47,14 @@ class DrivingController < ApplicationController
     direction = params[:dir].to_i
 
     if [BACKWARD, FRONTWARD].include?(direction)
-      GPIO.write(DRIVE_CONTORL[:go][direction][:gpio], 1)
+      GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 1)
+      system "gpio write 0 1"
+      logger.info("GPIO.write(#{DRIVE_CONTORL[:turn][direction][:gpio]}, 1)")
       message = DRIVE_CONTORL[:go][direction][:message]
     elsif direction == NONE
       GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 0)
       GPIO.write(DRIVE_CONTORL[:go][FRONTWARD][:gpio], 0)
+      system "gpio write 0 0"
       message = "STOP"
     end
 
