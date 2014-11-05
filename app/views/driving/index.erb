@@ -30,35 +30,35 @@
     var buttonPressed = $(this);
 
     if($(this).data("driveGo") && !isGoing) {
+      isGoing = true;
       $.get("/go?dir=" + $(this).data("driveGo"), function(data) {
         console.log(data);
-        isGoing = true;
         pressButton(1, undefined);
         buttonPressed.on("mouseup", function(e) {
           e.preventDefault();
           if(isGoing) {
+            isGoing = false;
             $.get("/go?dir=0", function(data) {
               console.log(data);
               pressButton(0, undefined);
-              isGoing = false;
             });
           }
         });
       });
     }
 
-    if($(this).data("driveTurn") && !isGoing) {
+    if($(this).data("driveTurn") && !isTurning) {
+      isTurning = true;
       $.get("/turn?dir=" + $(this).data("driveTurn"), function(data) {
         console.log(data);
-        isGoing = true;
         pressButton(1, undefined);
         buttonPressed.on("mouseup", function(e) {
           e.preventDefault();
-          if(isGoing) {
+          if(isTurning) {
+            isTurning = false;
             $.get("/turn?dir=0", function(data) {
               console.log(data);
               pressButton(0, undefined);
-              isGoing = false;
             });
           }
         });
