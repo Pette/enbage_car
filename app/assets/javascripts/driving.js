@@ -24,8 +24,8 @@ function keyboardControl(e) {
       pressButton(1, undefined);
       $(document).on("keyup", function(e) {
         if(e.which == 87 && isGoing) {
-          isGoing = false;
           $.get("/go?dir=0", function(data) {
+            isGoing = false;
             console.log(data);
             pressButton(0, undefined);
           });
@@ -33,6 +33,7 @@ function keyboardControl(e) {
       });
     });
   }
+
   // GO BACK!
   if(e.which == 83 && !isGoing) {
     // console.log("GO BACK!");
@@ -42,8 +43,8 @@ function keyboardControl(e) {
       pressButton(-1, undefined);
       $(document).on("keyup", function(e) {
         if(e.which == 83 && isGoing) {
-          isGoing = false;
           $.get("/go?dir=0", function(data) {
+            isGoing = false;
             console.log(data);
             pressButton(0, undefined);
           });
@@ -51,6 +52,8 @@ function keyboardControl(e) {
       });
     });
   }
+
+
   // TURN LEFT
   if(e.which == 65 && !isTurning) {
     isTurning = true;
@@ -59,8 +62,8 @@ function keyboardControl(e) {
       pressButton(undefined, -1);
       $(document).on("keyup", function(e) {
         if(e.which == 65 && isTurning) {
-          isTurning = false;
           $.get("/turn?dir=0", function(data) {
+            isTurning = false;
             console.log(data);
             pressButton(undefined, 0);
           });
@@ -76,8 +79,8 @@ function keyboardControl(e) {
       pressButton(undefined, 1);
       $(document).on("keyup", function(e) {
         if(e.which == 68 && isTurning) {
-          isTurning = false;
           $.get("/turn?dir=0", function(data) {
+            isTurning = false;
             console.log(data);
             pressButton(undefined, 0);
           });

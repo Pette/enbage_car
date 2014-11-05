@@ -24,6 +24,47 @@
   $(document).on("keydown", function(e) { keyboardControl(e) });
   $(document).on("load", createImageLayer(webcam_server_uri));
 
+  $(".drive_control").on("mousedown", function(e) {
+    e.preventDefault();
+
+    var buttonPressed = $(this);
+
+    if($(this).data("driveGo") && !isGoing) {
+      $.get("/go?dir=" + $(this).data("driveGo"), function(data) {
+        console.log(data);
+        isGoing = true;
+        pressButton(1, undefined);
+        buttonPressed.on("mouseup", function(e) {
+          e.preventDefault();
+          if(isGoing) {
+            $.get("/go?dir=0", function(data) {
+              console.log(data);
+              pressButton(0, undefined);
+              isGoing = false;
+            });
+          }
+        });
+      });
+    }
+
+    if($(this).data("driveTurn") && !isGoing) {
+      $.get("/turn?dir=" + $(this).data("driveTurn"), function(data) {
+        console.log(data);
+        isGoing = true;
+        pressButton(1, undefined);
+        buttonPressed.on("mouseup", function(e) {
+          e.preventDefault();
+          if(isGoing) {
+            $.get("/turn?dir=0", function(data) {
+              console.log(data);
+              pressButton(0, undefined);
+              isGoing = false;
+            });
+          }
+        });
+      });
+    }
+  });
 
 
 </script>
