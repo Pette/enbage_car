@@ -13,27 +13,8 @@ function pressButton(dataDriveGo, dataDriveTurn){
 var isGoing   = false;
 var isTurning = false;
 
-var FRONTWARD = -1;
-var BACKWARD  = 1;
-var LEFT      = -1;
-var RIGHT     = 1;
-
-var drive_control = {
-  "go": {
-    FRONTWARD : { "key": 87 },
-    BACKWARD  : { "key": 83 },
-  },
-  "turn": {
-    LEFT  : { "key": 65 },
-    RIGHT : { "key": 68 }
-  }
-}
-
 function keyboardControl(e) {
 
-  if((e.wich == 87 || e.wich == 83) && !isGoing) {
-    if
-  }
 
     // GO!
   if(e.which == 87 && !isGoing) {
