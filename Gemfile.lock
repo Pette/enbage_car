@@ -108,7 +108,6 @@ GEM
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    wiringpi (1.1.0)
 
 PLATFORMS
   ruby
@@ -125,4 +124,3 @@ DEPENDENCIES
   sqlite3
   turbolinks
   uglifier (>= 1.3.0)
-  wiringpi

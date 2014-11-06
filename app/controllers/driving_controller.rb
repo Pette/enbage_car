@@ -6,10 +6,6 @@ class DrivingController < ApplicationController
   BACKWARD  = -1
   FRONTWARD = 1
 
-  GPIO_GO         = 0
-  GPIO_GO_BACK    = 1
-  GPIO_TURN_LEFT  = 2
-  GPIO_TURN_RIGHT = 3
 
   DRIVE_CONTORL = {
     go: {
@@ -30,6 +26,8 @@ class DrivingController < ApplicationController
 
   def turn
     direction = params[:dir].to_i
+    start_of_action_time      = (Time.now.to_f * 1000).to_i
+    logger.info "[OK][DrivingController][turn] time from js call         = #{start_of_action_time - params[:time].to_i}ms"
 
     if [LEFT, RIGHT].include?(direction)
       # GPIO.write(DRIVE_CONTORL[:turn][direction][:gpio], 1)
@@ -43,11 +41,16 @@ class DrivingController < ApplicationController
       message = "DON'T TURN"
     end
 
-    render text: message
+    end_of_action_time      = (Time.now.to_f * 1000).to_i
+    logger.info "[OK][DrivingController][turn] time from begin of action = #{start_of_action_time - start_of_action_time}ms"
+
+    render json: { message: message, time: end_of_action_time }
   end
 
   def go
     direction = params[:dir].to_i
+    start_of_action_time      = (Time.now.to_f * 1000).to_i
+    logger.info "[OK][DrivingController][go] time from js call         = #{start_of_action_time - params[:time].to_i}ms"
 
     if [BACKWARD, FRONTWARD].include?(direction)
       # GPIO.write(DRIVE_CONTORL[:go][BACKWARD][:gpio], 1)
@@ -61,7 +64,10 @@ class DrivingController < ApplicationController
       message = "STOP"
     end
 
-    render text: message
+    end_of_action_time      = (Time.now.to_f * 1000).to_i
+    logger.info "[OK][DrivingController][go] time from begin of action = #{start_of_action_time - start_of_action_time}ms"
+
+    render json: { message: message, time: end_of_action_time }
   end
 
 end

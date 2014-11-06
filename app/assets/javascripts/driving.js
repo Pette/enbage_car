@@ -18,16 +18,17 @@ function keyboardControl(e) {
 
     // GO!
   if(e.which == 87 && !isGoing) {
-    // console.log("GO!");
     isGoing = true;
-    $.get("/go?dir=1", function(data) {
-      console.log(data);
+    $.get("/go?dir=1&time=" + $.now(), function(data) {
+      console.log(data.message);
+      console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
       pressButton(1, undefined);
       $(document).on("keyup", function(e) {
         if(e.which == 87 && isGoing) {
-          $.get("/go?dir=0", function(data) {
-            isGoing = false;
-            console.log(data);
+          isGoing = false;
+          $.get("/go?dir=0&time=" + $.now(), function(data) {
+            console.log(data.message);
+            console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
             pressButton(0, undefined);
           });
         }
@@ -37,16 +38,17 @@ function keyboardControl(e) {
 
   // GO BACK!
   if(e.which == 83 && !isGoing) {
-    // console.log("GO BACK!");
     isGoing = true;
-    $.get("/go?dir=-1", function(data){
-      console.log(data);
+    $.get("/go?dir=-1&time=" + $.now(), function(data){
+      console.log(data.message);
+      console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
       pressButton(-1, undefined);
       $(document).on("keyup", function(e) {
         if(e.which == 83 && isGoing) {
-          $.get("/go?dir=0", function(data) {
-            isGoing = false;
-            console.log(data);
+          isGoing = false;
+          $.get("/go?dir=0&time=" + $.now(), function(data) {
+            console.log(data.message);
+            console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
             pressButton(0, undefined);
           });
         }
@@ -58,31 +60,36 @@ function keyboardControl(e) {
   // TURN LEFT
   if(e.which == 65 && !isTurning) {
     isTurning = true;
-    $.get("/turn?dir=-1", function(data){
-      console.log(data);
+    $.get("/turn?dir=-1&time=" + $.now(), function(data){
+      console.log(data.message);
+      console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
       pressButton(undefined, -1);
       $(document).on("keyup", function(e) {
         if(e.which == 65 && isTurning) {
-          $.get("/turn?dir=0", function(data) {
-            isTurning = false;
-            console.log(data);
+          isTurning = false;
+          $.get("/turn?dir=0&time=" + $.now(), function(data) {
+            console.log(data.message);
+            console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
             pressButton(undefined, 0);
           });
         }
       });
     });
   }
+  
   // TURN RIGHT
   if(e.which == 68 && !isTurning) {
     isTurning = true;
-    $.get("/turn?dir=1", function(data){
-      console.log(data);
+    $.get("/turn?dir=1&time=" + $.now(), function(data){
+      console.log(data.message);
+      console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
       pressButton(undefined, 1);
       $(document).on("keyup", function(e) {
         if(e.which == 68 && isTurning) {
           isTurning = false;
-          $.get("/turn?dir=0", function(data) {
-            console.log(data);
+          $.get("/turn?dir=0&time=" + $.now(), function(data) {
+            console.log(data.message);
+            console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
             pressButton(undefined, 0);
           });
         }

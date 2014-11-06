@@ -43,5 +43,5 @@ gem 'passenger', group: :production
 
 
 # GPIO control
-#gem "pi_piper"
-gem 'wiringpi'
+# gem "pi_piper"
+# gem 'wiringpi'
