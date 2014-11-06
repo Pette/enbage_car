@@ -20,19 +20,19 @@ function keyboardControl(e) {
   if(e.which == 87 && !isGoing) {
     isGoing = true;
     $.get("/go?dir=1&time=" + $.now(), function(data) {
-      console.log(data.message);
-      console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
-      pressButton(1, undefined);
-      $(document).on("keyup", function(e) {
-        if(e.which == 87 && isGoing) {
-          isGoing = false;
-          $.get("/go?dir=0&time=" + $.now(), function(data) {
-            console.log(data.message);
-            console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
-            pressButton(0, undefined);
-          });
-        }
-      });
+      // console.log(data.message);
+      // console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
+      // pressButton(1, undefined);
+      // $(document).on("keyup", function(e) {
+      //   if(e.which == 87 && isGoing) {
+      //     isGoing = false;
+      //     $.get("/go?dir=0&time=" + $.now(), function(data) {
+      //       console.log(data.message);
+      //       console.log("time from end of action and callback = " + ($.now() - data.time) + "ms")
+      //       pressButton(0, undefined);
+      //     });
+      //   }
+      // });
     });
   }
 
